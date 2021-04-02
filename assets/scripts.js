@@ -2,12 +2,24 @@
 const $carousel = $('#grabAndPullCarousel');
 const $carouselInner = $('#grabAndPullCarousel .carousel-inner');
 const $carouselItems = $('#grabAndPullCarousel .carousel-item');
+const $links = $('#headerCarsCarousel .carousel-item > a');
 const carouselHammer = new Hammer($carousel[0]);
 let carouselInnerWidth = $carouselInner.width();
 let startXCoord = 0;
 let imageLeftCoord = 0;
 let lastMoveType = '';
 let resizeTimeout = null;
+const linkState = {
+  canNavigate: true,
+  href: ''
+}
+
+// Events
+$links.on('click', function(e){
+  e.preventDefault();
+  linkState.href = e.currentTarget.href;
+  setTimeout(linkNavigation, 600);
+});
 
 window.addEventListener('resize', function(){
   clearTimeout(resizeTimeout);
@@ -19,8 +31,8 @@ window.addEventListener('resize', function(){
 // Start carousel
 $carousel.carousel('cycle');
 
+// Mouse gesture controller
 carouselHammer.on("panstart panleft panright panend press pressup", function(event) {
-  eventLogs(event);
   let currentXCoord = event.pointers[0].pageX;
   let currentEventType = event.type;
   const $carouselItemActive = $('#grabAndPullCarousel .carousel-item.active');
@@ -32,6 +44,7 @@ carouselHammer.on("panstart panleft panright panend press pressup", function(eve
   }
 
   if (currentEventType === "panstart") {
+    linkState.canNavigate = false;
     startXCoord = currentXCoord;
     let prev = $carouselItemActive.prev();
     let next = $carouselItemActive.next();
@@ -93,6 +106,14 @@ carouselHammer.on("panstart panleft panright panend press pressup", function(eve
 });
 
 // Helper functions
+function linkNavigation() {
+  if(linkState.canNavigate) {
+    window.location = linkState.href;
+  }
+
+  linkState.canNavigate = true;
+}
+
 function initialize() {
   $carousel.carousel('cycle');
   carouselInnerWidth = $carouselInner.width();
@@ -150,30 +171,4 @@ function snapRight($carouselItemPrev, $carouselItemNext) {
   setTimeout(()=>{
     initialize()
   }, 600);
-}
-
-function eventLogs(event) {
-  if(event.type === 'panstart') {
-    console.log('panstart');
-  }
-
-  if(event.type === 'panleft') {
-    console.log('panleft');
-  }
-
-  if(event.type === 'panright') {
-    console.log('panright');
-  }
-
-  if(event.type === 'panend') {
-    console.log('panend');
-  }
-
-  if(event.type === 'press') {
-    console.log('press');
-  }
-
-  if(event.type === 'pressup') {
-    console.log('pressup');
-  }
 }
