@@ -1,0 +1,80 @@
+/* 
+* This is a first mobile styles approach
+******************************************/
+
+/* General reset css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #26292d;
+}
+
+.container {
+  height: 100vh;
+  padding: 0;
+}
+
+/* Carousel styles */
+#grabAndPullCarousel {
+  height: 70vh;
+  min-height: 70vh;
+  max-height: 70vh;
+}
+
+#grabAndPullCarousel .carousel-inner,
+#grabAndPullCarousel .carousel-item {
+  height: 100%;
+}
+
+#grabAndPullCarousel img {
+  object-fit: cover;
+}
+
+/* Indicators styles */
+#grabAndPullCarousel .carousel-indicators li {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, .4);
+  border:2px solid rgba(255, 255, 255, .6);
+  transition: transform .8s ease;
+}
+
+#grabAndPullCarousel .carousel-indicators li:hover {
+  background-color: rgba(255, 255, 255, .3);
+}
+
+#grabAndPullCarousel .carousel-indicators li.active {
+  background-color: rgba(255, 255, 255, .5);
+  border:2px solid rgba(255, 255, 255, .6);
+  transform: scale(1.2);
+}
+
+/* Make visible the next and prev slide */
+#grabAndPullCarousel .visible-carousel-item {
+  display: block;
+  position: absolute;
+  top: 0;
+}
+
+/* Avoid drag and drog the image when you grab and pull the a image in the slide */
+#grabAndPullCarousel img { 
+  -webkit-user-select: none; 
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  user-drag: none; 
+  -webkit-user-drag: none;
+}
+
+/* Styles for Tables and devices with greather viewport */
+@media screen and (min-width: 768px) {
+  #grabAndPullCarousel .carousel-indicators li {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}

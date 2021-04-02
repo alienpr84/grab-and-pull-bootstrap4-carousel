@@ -1,0 +1,38 @@
+{
+  "name": "grab-and-pull-bootstrap-carousel",
+  "version": "1.0.0",
+  "description": "This is an example about how implement a grab and pull slides on a bootstrap carousel",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alienpr84/grab-and-pull-bootstrap4-carousel.git"
+  },
+  "keywords": [
+    "bootstrap",
+    "bootstrap4",
+    "hammerjs",
+    "jquery",
+    "javascript",
+    "html",
+    "css",
+    "grab-and-pull",
+    "grab",
+    "pull",
+    "slide",
+    "carousel"
+  ],
+  "author": "Alien Padilla Rodriguez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alienpr84/grab-and-pull-bootstrap4-carousel/issues"
+  },
+  "homepage": "https://github.com/alienpr84/grab-and-pull-bootstrap4-carousel#readme",
+  "dependencies": {
+    "bootstrap": "^4.6.0",
+    "hammerjs": "^2.0.8",
+    "jquery": "^3.6.0"
+  }
+}
