@@ -3,12 +3,12 @@ const $carousel = $('#grabAndPullCarousel');
 const $carouselInner = $('#grabAndPullCarousel .carousel-inner');
 const $carouselItems = $('#grabAndPullCarousel .carousel-item');
 const $links = $('#headerCarsCarousel .carousel-item > a');
-const carouselHammer = new Hammer($carousel[0]);
-let carouselInnerWidth = $carouselInner.width();
-let startXCoord = 0;
-let imageLeftCoord = 0;
-let lastMoveType = '';
-let resizeTimeout = null;
+const carouselHammer = new Hammer($carousel[0]); // create a hammer instance
+let carouselInnerWidth = $carouselInner.width(); // save the carousel width
+let startXCoord = 0; // start x coordinate
+let imageLeftCoord = 0; // set the current Left coordinate
+let lastMoveType = ''; // save the lastMove type
+let resizeTimeout = null; // timeout id for resize event
 const linkState = {
   canNavigate: true,
   href: ''
@@ -31,25 +31,27 @@ window.addEventListener('resize', function(){
 // Start carousel
 $carousel.carousel('cycle');
 
-// Mouse gesture controller
+// Hammer events for Carousel
 carouselHammer.on("panstart panleft panright panend press pressup", function(event) {
-  let currentXCoord = event.pointers[0].pageX;
-  let currentEventType = event.type;
+  let currentXCoord = event.pointers[0].pageX; // set the current mouse position over x axis
+  let currentEventType = event.type; // set the current event type passed to hammer On method as string
   const $carouselItemActive = $('#grabAndPullCarousel .carousel-item.active');
   const $carouselItemPrev = $('#grabAndPullCarousel .carousel-item.prev');
   const $carouselItemNext = $('#grabAndPullCarousel .carousel-item.next');
 
+  // we are going to pause the carousel when we start to grab the slide
   if(currentEventType === 'panstart' || currentEventType === 'press') {
     $carousel.carousel('pause');
   }
 
+  // When we start to grab the slide
   if (currentEventType === "panstart") {
     linkState.canNavigate = false;
     startXCoord = currentXCoord;
     let prev = $carouselItemActive.prev();
     let next = $carouselItemActive.next();
 
-    // circular search
+    // circular slide search for next and prev slide item when the active slide item doesn't have a prev or next slide item.
     if (prev[0] === undefined) {
       prev = $carouselInner.children().last();
     }
@@ -67,6 +69,7 @@ carouselHammer.on("panstart panleft panright panend press pressup", function(eve
     $carouselItemPrev.addClass('visible-carousel-item');
     $carouselItemNext.addClass('visible-carousel-item');
 
+    // here we move the slides items active, next and prev. 
     $carouselItemActive.css({
       transition: "initial",
       transform: "translate3d(" + (imageLeftCoord + diff) + "px, 0, 0)"
@@ -86,16 +89,14 @@ carouselHammer.on("panstart panleft panright panend press pressup", function(eve
     startXCoord = currentXCoord;
   }
   else if(currentEventType === 'panend') {
+    // we only going to make the transition if the movement over the current slide is greather than its half width.
     if(lastMoveType === "panright" && (imageLeftCoord > carouselInnerWidth / 2)) {
-      console.log('left')
       snapLeft($carouselItemPrev, $carouselItemNext);
     }
     else if(lastMoveType === "panleft" && (imageLeftCoord < -(carouselInnerWidth / 2))) {
-      console.log('right')
       snapRight($carouselItemPrev, $carouselItemNext);
     }
     else {
-      console.log('no left no right')
       cleanTransitionWhenDontSlide($carouselItemActive, $carouselItemPrev, $carouselItemNext)
     }
   }

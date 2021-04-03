@@ -61,7 +61,7 @@ body {
   top: 0;
 }
 
-/* Avoid drag and drog the image or anchor when you grab and pull the a image in the slide */
+/* Avoid drag and drog the image when you grab and pull the a image in the slide */
 #grabAndPullCarousel img,
 #grabAndPullCarousel a { 
   -webkit-user-select: none; 
